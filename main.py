@@ -13,15 +13,33 @@ class Map_Main(QWidget):
     def __init__(self):
         super(Map_Main, self).__init__()
         uic.loadUi('map.ui', self)
+
+        self.type_of_map.setEditable(True)
+        self.type_of_map.lineEdit().setAlignment(QtCore.Qt.AlignCenter)
+        self.type_of_map.setEditable(False)
+
         self.set_map()
         self.findit.clicked.connect(self.set_map)
 
     def set_map(self):
+        self.api_req()
+
+        map_photo = QPixmap(self.map_file)
+        map_photo = map_photo.scaled(1100, 790)
+        self.map_line.setPixmap(map_photo)
+
+    def api_req(self):
         latitude = self.latit_inp.text()
         longitude = self.longit_inp.text()
         spn = self.spin.value()
 
-        API_request = f'https://static-maps.yandex.ru/1.x/?ll={latitude},{longitude}&spn={spn},{spn}&l=map&size=650,450'
+        types = {
+            'Режим "Карта"': 'map',
+            'Режим "Спутник"': 'sat',
+            'Режим "Гибрид"': 'sat,skl'
+        }
+
+        API_request = f'https://static-maps.yandex.ru/1.x/?ll={latitude},{longitude}&spn={spn},{spn}&l={types[self.type_of_map.currentText()]}&size=650,450'
         response = requests.get(API_request)
 
         if not response:
@@ -30,14 +48,10 @@ class Map_Main(QWidget):
             print("Http статус:", response.status_code, "(", response.reason, ")")
             sys.exit(1)
         else:
-            map_file = 'map.png'
+            self.map_file = 'map.png'
 
-            with open(map_file, 'wb') as file:
+            with open(self.map_file, 'wb') as file:
                 file.write(response.content)
-
-        map_photo = QPixmap(map_file)
-        map_photo = map_photo.scaled(1100, 790)
-        self.map_line.setPixmap(map_photo)
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_PageUp:
