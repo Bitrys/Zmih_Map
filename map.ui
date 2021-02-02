@@ -62,9 +62,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
+     <y>110</y>
      <width>1101</width>
-     <height>791</height>
+     <height>721</height>
     </rect>
    </property>
    <property name="text">
@@ -152,6 +152,27 @@
    </property>
    <property name="text">
     <string>Reset map</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="full_address">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>852</y>
+     <width>1101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
