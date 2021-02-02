@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap
+from PyQt5 import QtCore
 from PyQt5 import uic
 
 
@@ -12,6 +13,7 @@ class Map_Main(QWidget):
     def __init__(self):
         super(Map_Main, self).__init__()
         uic.loadUi('map.ui', self)
+        self.set_map()
         self.findit.clicked.connect(self.set_map)
 
     def set_map(self):
@@ -36,6 +38,15 @@ class Map_Main(QWidget):
         map_photo = QPixmap(map_file)
         map_photo = map_photo.scaled(1100, 790)
         self.map_line.setPixmap(map_photo)
+
+    def keyPressEvent(self, event):
+        if event.key() == QtCore.Qt.Key_PageUp:
+            spn = self.spin.setValue(self.spin.value() + 0.05)
+            self.set_map()
+        elif event.key() == QtCore.Qt.Key_PageDown:
+            spn = self.spin.setValue(self.spin.value() - 0.05)
+            self.set_map()
+
 
 def except_hook(cls, exception, traceback):
     sys.__excepthook__(cls, exception, traceback)
