@@ -20,6 +20,7 @@ class Map_Main(QWidget):
 
         self.set_map()
         self.findit.clicked.connect(self.set_map)
+        self.resetit.clicked.connect(self.reset_map)
 
     def set_map(self):
         self.api_req()
@@ -27,6 +28,18 @@ class Map_Main(QWidget):
         map_photo = QPixmap(self.map_file)
         map_photo = map_photo.scaled(1100, 790)
         self.map_line.setPixmap(map_photo)
+
+    def reset_map(self):
+        file = open('config.cfg')
+        data = file.read()
+        data = data.split('\n')
+
+        self.latit_inp.setText(data[0])
+        self.longit_inp.setText(data[1])
+        self.spin.setValue(float(data[2]))
+        self.point_to_find.setText('')
+
+        self.set_map()
 
     def api_req(self):
         if self.point_to_find.text() == '':
