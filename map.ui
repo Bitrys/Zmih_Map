@@ -94,9 +94,9 @@
    <property name="geometry">
     <rect>
      <x>660</x>
-     <y>50</y>
+     <y>40</y>
      <width>451</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -126,7 +126,7 @@
      <x>660</x>
      <y>10</y>
      <width>451</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -173,6 +173,19 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="mail_address">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>75</y>
+     <width>271</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Указывать почтовый индекс в адресной строке</string>
    </property>
   </widget>
  </widget>
