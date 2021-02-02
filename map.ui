@@ -93,9 +93,9 @@
   <widget class="QComboBox" name="type_of_map">
    <property name="geometry">
     <rect>
-     <x>550</x>
+     <x>660</x>
      <y>50</y>
-     <width>561</width>
+     <width>451</width>
      <height>41</height>
     </rect>
    </property>
@@ -123,9 +123,9 @@
   <widget class="QLineEdit" name="point_to_find">
    <property name="geometry">
     <rect>
-     <x>550</x>
+     <x>660</x>
      <y>10</y>
-     <width>561</width>
+     <width>451</width>
      <height>31</height>
     </rect>
    </property>
@@ -139,6 +139,19 @@
    </property>
    <property name="placeholderText">
     <string>Input point</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="resetit">
+   <property name="geometry">
+    <rect>
+     <x>545</x>
+     <y>10</y>
+     <width>111</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset map</string>
    </property>
   </widget>
  </widget>
