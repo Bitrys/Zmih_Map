@@ -29,9 +29,23 @@ class Map_Main(QWidget):
         self.map_line.setPixmap(map_photo)
 
     def api_req(self):
-        latitude = self.latit_inp.text()
-        longitude = self.longit_inp.text()
-        spn = self.spin.value()
+        if self.point_to_find.text() == '':
+            latitude = self.latit_inp.text()
+            longitude = self.longit_inp.text()
+            spn = self.spin.value()
+
+        else:
+            point = self.point_to_find.text()
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={point}&format=json'
+            response = requests.get(API_request)
+
+            json_response = response.json()
+            toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+            toponym_coodrinates = toponym["Point"]["pos"]
+            latitude, longitude = toponym_coodrinates.split(' ')
+            self.latit_inp.setText(latitude)
+            self.longit_inp.setText(longitude)
+            spn = self.spin.value()
 
         types = {
             'Режим "Карта"': 'map',
@@ -39,7 +53,8 @@ class Map_Main(QWidget):
             'Режим "Гибрид"': 'sat,skl'
         }
 
-        API_request = f'https://static-maps.yandex.ru/1.x/?ll={latitude},{longitude}&spn={spn},{spn}&l={types[self.type_of_map.currentText()]}&size=650,450'
+        API_request = f'https://static-maps.yandex.ru/1.x/?ll={latitude},{longitude}&spn={spn},{spn}&l=' \
+                      f'{types[self.type_of_map.currentText()]}&size=650,450&pt={latitude},{longitude},flag'
         response = requests.get(API_request)
 
         if not response:
