@@ -28,6 +28,7 @@ class Main(QWidget):
         self.set_map()
         self.findit.clicked.connect(self.set_map)
         self.resetit.clicked.connect(self.reset_map)
+        BDS = False
 
     def set_map(self):
         """
@@ -68,6 +69,9 @@ class Main(QWidget):
             longitude = self.longit_inp.text()
             spn = self.spin.value()
         else:
+            if self.point_to_find.text().lower() == 'буров дмитрий молодец':
+                BDS = True
+
             point = self.point_to_find.text()
             API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={point}&format=json'
             response = requests.get(API_request)
@@ -87,7 +91,10 @@ class Main(QWidget):
                     self.longit_inp.setText(longitude)
                     spn = self.spin.value()
                 except:
-                    self.full_address.setText('Адрес не существует')
+                    if BDS:
+                        self.full_address.setText('Сыглы, он лучший')
+                    else:
+                        self.full_address.setText('Адрес не существует')
 
         types = {
             'Режим "Карта"': 'map',
@@ -133,14 +140,25 @@ class Main(QWidget):
                     if self.mail_address.isChecked():
                         try:
                             post_code = toponym["metaDataProperty"]["GeocoderMetaData"]["Address"]["postal_code"]
-                            self.full_address.setText(f'Полный адрес места: {toponym_address}, почтовый индекс: {post_code}')
+                            if BDS:
+                                self.full_address.setText('Сыглы, он лучший')
+                            else:
+                                self.full_address.setText(f'Полный адрес места: {toponym_address}, почтовый индекс: {post_code}')
                         except:
-                            self.full_address.setText(
-                                f'Полный адрес места: {toponym_address}, почтовый индекс отсутствует')
+                            if BDS:
+                                self.full_address.setText('Сыглы, он лучший')
+                            else:
+                                self.full_address.setText(f'Полный адрес места: {toponym_address}, почтовый индекс отсутствует')
                     else:
-                        self.full_address.setText(f'Полный адрес места: {toponym_address}')
+                        if BDS:
+                            self.full_address.setText('Сыглы, он лучший')
+                        else:
+                            self.full_address.setText(f'Полный адрес места: {toponym_address}')
                 except:
-                    self.full_address.setText('Адрес не существует')
+                    if BDS:
+                        self.full_address.setText('Сыглы, он лучший')
+                    else:
+                        self.full_address.setText('Адрес не существует')
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_PageUp:
