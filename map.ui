@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLineEdit" name="address">
+  <widget class="QLineEdit" name="latit_inp">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="placeholderText">
-    <string>Input address</string>
+    <string>Input latitude</string>
    </property>
   </widget>
   <widget class="QPushButton" name="findit">
@@ -32,47 +32,50 @@
      <x>430</x>
      <y>10</y>
      <width>111</width>
-     <height>23</height>
+     <height>81</height>
     </rect>
    </property>
    <property name="text">
     <string>Find it!</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="spins">
-   <property name="geometry">
-    <rect>
-     <x>550</x>
-     <y>10</y>
-     <width>113</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="spnset">
-   <property name="geometry">
-    <rect>
-     <x>670</x>
-     <y>10</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Ok!</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="map">
+  <widget class="QLineEdit" name="longit_inp">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>42</y>
+     <y>40</y>
+     <width>411</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Input longtude</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="map_line">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
      <width>1101</width>
-     <height>841</height>
+     <height>791</height>
     </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="spn">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>411</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="singleStep">
+    <double>0.100000000000000</double>
    </property>
   </widget>
  </widget>
