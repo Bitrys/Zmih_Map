@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Main</class>
+ <widget class="QWidget" name="Main">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1122</width>
+    <width>1120</width>
     <height>895</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>1120</width>
+    <height>895</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Прототип карты от Жмых Ко</string>
   </property>
   <widget class="QLineEdit" name="latit_inp">
    <property name="geometry">
