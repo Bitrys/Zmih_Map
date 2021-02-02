@@ -144,10 +144,10 @@ class Main(QWidget):
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_PageUp:
-            spn = self.spin.setValue(self.spin.value() + 0.05)
+            spn = self.spin.setValue(self.spin.value() + self.to_step.value())
             self.set_map()
         elif event.key() == QtCore.Qt.Key_PageDown:
-            spn = self.spin.setValue(self.spin.value() - 0.05)
+            spn = self.spin.setValue(self.spin.value() - self.to_step.value())
             self.set_map()
 
 
