@@ -90,6 +90,36 @@
     <double>0.010000000000000</double>
    </property>
   </widget>
+  <widget class="QComboBox" name="type_of_map">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>10</y>
+     <width>561</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>Режим &quot;Карта&quot;</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Режим &quot;Спутник&quot;</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Режим &quot;Гибрид&quot;</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <resources/>
  <connections/>
