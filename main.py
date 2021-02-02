@@ -29,6 +29,8 @@ class Map_Main(QWidget):
         map_photo = map_photo.scaled(1100, 790)
         self.map_line.setPixmap(map_photo)
 
+        self.get_address()
+
     def reset_map(self):
         file = open('config.cfg')
         data = file.read()
@@ -80,6 +82,19 @@ class Map_Main(QWidget):
 
             with open(self.map_file, 'wb') as file:
                 file.write(response.content)
+
+    def get_address(self):
+        if self.point_to_find.text() == '':
+            pass
+        else:
+            point = self.point_to_find.text()
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={point}&format=json'
+            response = requests.get(API_request)
+            json_response = response.json()
+
+            toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+            toponym_address = toponym["metaDataProperty"]["GeocoderMetaData"]["text"]
+            self.full_address.setText(f'Полный адрес места: {toponym_address}')
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_PageUp:
