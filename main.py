@@ -17,14 +17,14 @@ class Map_Main(QWidget):
     def set_map(self):
         latitude = self.latit_inp.text()
         longitude = self.longit_inp.text()
-        spn = self.spins.text()
+        spn = self.spin.value()
 
-        API_request = f'https://static-maps.yandex.ru/1.x/?ll={latitude},{longitude}&spn={spn},{spn}&l=map'
+        API_request = f'https://static-maps.yandex.ru/1.x/?ll={latitude},{longitude}&spn={spn},{spn}&l=map&size=650,450'
         response = requests.get(API_request)
 
         if not response:
             print("Ошибка выполнения запроса:")
-            print(map_request)
+            print(API_request)
             print("Http статус:", response.status_code, "(", response.reason, ")")
             sys.exit(1)
         else:
