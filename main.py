@@ -28,7 +28,7 @@ class Main(QWidget):
         self.set_map()
         self.findit.clicked.connect(self.set_map)
         self.resetit.clicked.connect(self.reset_map)
-        BDS = False
+        self.printresult.clicked.connect(self.print_map)
 
     def set_map(self):
         """
@@ -69,9 +69,6 @@ class Main(QWidget):
             longitude = self.longit_inp.text()
             spn = self.spin.value()
         else:
-            if self.point_to_find.text().lower() == 'буров дмитрий молодец':
-                BDS = True
-
             point = self.point_to_find.text()
             API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={point}&format=json'
             response = requests.get(API_request)
@@ -116,34 +113,44 @@ class Main(QWidget):
 
     def get_address(self):
         if self.point_to_find.text() == '':
-            pass
+            latitude = self.latit_inp.text()
+            longitude = self.longit_inp.text()
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={latitude},{longitude}&format=json'
+            response = requests.get(API_request)
         else:
             point = self.point_to_find.text()
             API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={point}&format=json'
             response = requests.get(API_request)
 
-            if not response:
-                print('Ошибка выполнения запроса:')
-                print(API_request)
-                print('Http статус:', response.status_code, '(', response.reason, ')')
-                sys.exit(1)
-            else:
-                json_response = response.json()
+        if not response:
+            print('Ошибка выполнения запроса:')
+            print(API_request)
+            print('Http статус:', response.status_code, '(', response.reason, ')')
+            sys.exit(1)
+        else:
+            json_response = response.json()
 
-                try:
-                    toponym = json_response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']
-                    toponym_address = toponym['metaDataProperty']['GeocoderMetaData']['text']
+            try:
+                toponym = json_response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']
+                toponym_address = toponym['metaDataProperty']['GeocoderMetaData']['text']
 
-                    if self.mail_address.isChecked():
-                        try:
-                            post_code = toponym["metaDataProperty"]["GeocoderMetaData"]["Address"]["postal_code"]
-                            self.full_address.setText(f'Полный адрес места: {toponym_address}, почтовый индекс: {post_code}')
-                        except:
-                            self.full_address.setText(f'Полный адрес места: {toponym_address}, почтовый индекс отсутствует')
-                    else:
+                if self.mail_address.isChecked():
+                    try:
+                        post_code = toponym["metaDataProperty"]["GeocoderMetaData"]["Address"]["postal_code"]
                         self.full_address.setText(f'Полный адрес места: {toponym_address}')
-                except:
-                    self.full_address.setText('Адрес не существует')
+                        self.post_index_full.setText(f'Почтовый индекс: {post_code}')
+                    except:
+                        self.full_address.setText(f'Полный адрес места: {toponym_address}')
+                        self.post_index_full.setText('Почтовый индекс недоступен в данном регионе, или не существует')
+                else:
+                    self.full_address.setText(f'Полный адрес места: {toponym_address}')
+            except:
+                self.full_address.setText('Error!')
+
+    def print_map(self):
+        self.api_req()
+        map_photo = QPixmap(self.map_file)
+
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_PageUp:

@@ -164,14 +164,14 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>852</y>
+     <y>830</y>
      <width>1101</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>18</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text">
@@ -266,6 +266,40 @@
    </property>
    <property name="text">
     <string>Latitude coord:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="printresult">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>80</y>
+     <width>181</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Print result!</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="post_index_full">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>850</y>
+     <width>1101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
