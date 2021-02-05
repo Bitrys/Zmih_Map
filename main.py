@@ -15,6 +15,7 @@ class Main(QWidget):
     def __init__(self):
         """
         Initialized a program.
+        :return: no returns
         """
         super(Main, self).__init__()
         uic.loadUi('map.ui', self)
@@ -35,6 +36,7 @@ class Main(QWidget):
         Setup map.
         :return: no returns
         """
+        self.clear_output()
         self.api_req()
 
         map_photo = QPixmap(self.map_file)
@@ -45,7 +47,7 @@ class Main(QWidget):
 
     def reset_map(self):
         """
-        Returns the map settings to constant values.
+        Reset all config and search result.
         :return: no returns
         """
         file = open('config.cfg')  # open configuration
@@ -54,10 +56,17 @@ class Main(QWidget):
         self.latit_inp.setText(data[0])
         self.longit_inp.setText(data[1])
         self.spin.setValue(float(data[2]))
+        self.to_step.setValue(float(data[3]))
         self.point_to_find.setText('')
-        self.full_address.setText('')
+        self.clear_output()
 
-        self.set_map()
+    def clear_output(self):
+        """
+        Clear output date.
+        :return: no returns
+        """
+        self.post_index_full.setText('')
+        self.full_address.setText('')
 
     def api_req(self):
         """
@@ -70,7 +79,8 @@ class Main(QWidget):
             spn = self.spin.value()
         else:
             point = self.point_to_find.text()
-            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={point}&format=json'
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode=' \
+                          f'{point}&format=json'
             response = requests.get(API_request)
 
             if not response:
@@ -106,20 +116,27 @@ class Main(QWidget):
             print('Http статус:', response.status_code, '(', response.reason, ')')
             sys.exit(1)
         else:
-            self.map_file = 'map.png'
+            self.map_file = 'temp/map.png'
 
             with open(self.map_file, 'wb') as file:
                 file.write(response.content)
 
     def get_address(self):
+        """
+        Get address
+        :return: no returns
+        """
+
         if self.point_to_find.text() == '':
             latitude = self.latit_inp.text()
             longitude = self.longit_inp.text()
-            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={latitude},{longitude}&format=json'
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode=' \
+                          f'{latitude},{longitude}&format=json'
             response = requests.get(API_request)
         else:
             point = self.point_to_find.text()
-            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={point}&format=json'
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode=' \
+                          f'{point}&format=json'
             response = requests.get(API_request)
 
         if not response:
@@ -137,6 +154,7 @@ class Main(QWidget):
                 if self.mail_address.isChecked():
                     try:
                         post_code = toponym["metaDataProperty"]["GeocoderMetaData"]["Address"]["postal_code"]
+
                         self.full_address.setText(f'Полный адрес места: {toponym_address}')
                         self.post_index_full.setText(f'Почтовый индекс: {post_code}')
                     except:
@@ -148,9 +166,12 @@ class Main(QWidget):
                 self.full_address.setText('Error!')
 
     def print_map(self):
+        """
+        Printed and saved map at docx
+        :return: no returns
+        """
         self.api_req()
         map_photo = QPixmap(self.map_file)
-
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_PageUp:
