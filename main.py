@@ -9,6 +9,7 @@ from PyQt5 import uic
 
 import sys
 import requests
+import configparser
 
 
 class Main(QWidget):
@@ -52,13 +53,13 @@ class Main(QWidget):
         Reset all config and search result.
         :return: no returns
         """
-        file = open('config.cfg')  # open configuration
-        data = file.read()
-        data = data.split('\n')
-        self.latit_inp.setText(data[0])
-        self.longit_inp.setText(data[1])
-        self.spin.setValue(float(data[2]))
-        self.to_step.setValue(float(data[3]))
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
+        self.latit_inp.setText(config['Geogrpahic']['latitude'])
+        self.longit_inp.setText(config['Geogrpahic']['longitude'])
+        self.spin.setValue(float(config['Geogrpahic']['spin']))
+        self.to_step.setValue(float(config['Geogrpahic']['delta_spin']))
         self.point_to_find.setText('')
         self.clear_output()
         self.set_map()
