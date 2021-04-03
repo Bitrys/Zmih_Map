@@ -59,6 +59,7 @@ class Main(QWidget):
         self.to_step.setValue(float(data[3]))
         self.point_to_find.setText('')
         self.clear_output()
+        self.set_map()
 
     def clear_output(self):
         """
