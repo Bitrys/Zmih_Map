@@ -31,6 +31,7 @@ class Main(QWidget):
         self.resetit.clicked.connect(self.reset_map)
         self.printresult.clicked.connect(self.print_map)
         self.type_of_map.currentIndexChanged.connect(self.set_map)
+        self.mail_address.clicked.connect(self.set_map)
 
     def set_map(self):
         """
