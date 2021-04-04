@@ -123,9 +123,8 @@ class Main(QWidget):
             sys.exit(1)
         else:
             self.map_file = 'temp/map.png'
-
-            with open(self.map_file, 'wb') as file:
-                file.write(response.content)
+            image = Image.open(BytesIO(response.content))
+            image.save('temp/map.png')
 
     def get_address(self):
         """
