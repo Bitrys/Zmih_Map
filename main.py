@@ -6,11 +6,12 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap
 from PyQt5 import QtCore
 from PyQt5 import uic
+from PIL import Image
+from io import BytesIO
 
 import sys
 import requests
 import configparser
-import PIL
 
 
 class Main(QWidget):
