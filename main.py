@@ -9,12 +9,51 @@ from PyQt5 import uic
 from PIL import Image
 from io import BytesIO
 
+import os
 import sys
 import requests
 import configparser
 
 
-class Main(QWidget):
+class Settings(QWidget):
+    def __init__(self):
+        """
+        Initialized a program.
+        :return: no returns
+        """
+        super(Settings, self).__init__()
+        uic.loadUi('setting.ui', self)
+
+        self.saved.clicked.connect(self.save_settings)
+
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
+        self.scale.setText(config['Geogrpahic']['spin'])
+        self.d_scale.setText(config['Geogrpahic']['delta_spin'])
+        self.ID_map.setText(config['Geogrpahic']['id_type_map'])
+        self.mail.setText(config['Geogrpahic']['mail_point'])
+        self.latit.setText(config['Geogrpahic']['latitude'])
+        self.longit.setText(config['Geogrpahic']['longitude'])
+
+    def save_settings(self):
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
+        config.set('Geogrpahic', 'spin', self.scale.text())
+        config.set('Geogrpahic', 'delta_spin', self.d_scale.text())
+        config.set('Geogrpahic', 'id_type_map', self.ID_map.text())
+        config.set('Geogrpahic', 'mail_point', self.mail.text())
+        config.set('Geogrpahic', 'latitude', self.latit.text())
+        config.set('Geogrpahic', 'longitude', self.longit.text())
+
+        with open('config.ini', "w") as config_file:
+            config.write(config_file)
+
+        self.close()
+
+
+class Main(QMainWindow):
     def __init__(self):
         """
         Initialized a program.
@@ -35,6 +74,8 @@ class Main(QWidget):
         self.printresult.clicked.connect(self.print_map)
         self.type_of_map.currentIndexChanged.connect(self.set_map)
         self.mail_address.clicked.connect(self.set_map)
+        self.deleted_menu.triggered.connect(self.deleted_temp)
+        self.perferens_menu.triggered.connect(self.setup_menu)
 
     def set_map(self):
         """
@@ -45,7 +86,7 @@ class Main(QWidget):
         self.api_req()
 
         map_photo = QPixmap(self.map_file)
-        map_photo = map_photo.scaled(1100, 790)
+        map_photo = map_photo.scaled(650, 450)
         self.map_line.setPixmap(map_photo)
 
         self.get_address()
@@ -109,9 +150,9 @@ class Main(QWidget):
                     self.full_address.setText('Адрес не существует')
 
         types = {
-            'Режим "Карта"': 'map',
-            'Режим "Спутник"': 'sat',
-            'Режим "Гибрид"': 'sat,skl'
+            'Режим «Карта»': 'map',
+            'Режим «Спутник»': 'sat',
+            'Режим «Гибрид»': 'sat,skl'
         }
 
         API_request = f'https://static-maps.yandex.ru/1.x/?ll={latitude},{longitude}&spn={spn},{spn}&l=' \
@@ -180,6 +221,21 @@ class Main(QWidget):
         self.api_req()
         map_photo = QPixmap(self.map_file)
 
+    def deleted_temp(self):
+        """
+        Deleted temponary files.
+        :return:
+        """
+        os.remove('temp/map.png')
+
+    def setup_menu(self):
+        """
+        Setting this program.
+        :return:
+        """
+        self.Settings = Settings()
+        self.Settings.show()
+
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_PageUp:
             spn = self.spin.setValue(self.spin.value() + self.to_step.value())
@@ -187,6 +243,10 @@ class Main(QWidget):
         elif event.key() == QtCore.Qt.Key_PageDown:
             spn = self.spin.setValue(self.spin.value() - self.to_step.value())
             self.set_map()
+        elif event.key() == QtCore.Qt.Key_Enter:
+            self.set_map()
+        elif event.key() == QtCore.Qt.Key_Escape:
+            sys.exit(1)
 
 
 def except_hook(cls, exception, traceback):
