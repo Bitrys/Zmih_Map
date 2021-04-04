@@ -10,6 +10,7 @@ from PyQt5 import uic
 import sys
 import requests
 import configparser
+import PIL
 
 
 class Main(QWidget):
