@@ -68,7 +68,7 @@ class Main(QMainWindow):
         self.type_of_map.setEditable(False)
 
         # setup map and connect buttons
-        self.set_map()
+        self.reset_map()
         self.findit.clicked.connect(self.set_map)
         self.resetit.clicked.connect(self.reset_map)
         self.printresult.clicked.connect(self.print_map)
