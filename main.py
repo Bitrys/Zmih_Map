@@ -2,6 +2,8 @@
 This application is a training work on WEB-7 " WEB. Знакомство с API" and pretends that this is a fucking cool map (no).
 """
 
+from docx import Document
+from docx.shared import Inches
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QPixmap
 from PyQt5 import QtCore
@@ -12,6 +14,7 @@ from io import BytesIO
 import os
 import sys
 import requests
+import datetime
 import configparser
 
 
@@ -72,10 +75,14 @@ class Main(QMainWindow):
         self.findit.clicked.connect(self.set_map)
         self.resetit.clicked.connect(self.reset_map)
         self.printresult.clicked.connect(self.print_map)
-        self.type_of_map.currentIndexChanged.connect(self.set_map)
+        self.exit_button.clicked.connect(self.quit_programm)
         self.mail_address.clicked.connect(self.set_map)
+        self.settings_button.clicked.connect(self.setup_menu)
         self.deleted_menu.triggered.connect(self.deleted_temp)
-        self.perferens_menu.triggered.connect(self.setup_menu)
+        self.type_of_map.currentIndexChanged.connect(self.set_map)
+
+    def quit_programm(self):
+        sys.exit(1)
 
     def set_map(self):
         """
@@ -221,9 +228,43 @@ class Main(QMainWindow):
         self.api_req()
         map_photo = QPixmap(self.map_file)
 
-    def deleted_temp(self):
+        document = Document()
+        now = datetime.datetime.now()
+        document.add_heading(f'Результат поиска от {now.strftime("%d-%m-%Y %H:%M")}', 0)
+        document.add_heading('Карта запроса:', level=1)
+        document.add_picture('temp/map.png', width=Inches(6))
+        document.add_heading('Текущий адрес:', level=1)
+
+        if self.point_to_find.text() == '':
+            latitude = self.latit_inp.text()
+            longitude = self.longit_inp.text()
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode=' \
+                          f'{latitude},{longitude}&format=json'
+            response = requests.get(API_request)
+        else:
+            point = self.point_to_find.text()
+            API_request = f'http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode=' \
+                          f'{point}&format=json'
+            response = requests.get(API_request)
+
+        json_response = response.json()
+        toponym = json_response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']
+        document.add_paragraph(toponym['metaDataProperty']['GeocoderMetaData']['text'])
+        document.add_heading('Координаты места:', 1)
+        document.add_paragraph(toponym['Point']['pos'])
+        try:
+            post_code = toponym["metaDataProperty"]["GeocoderMetaData"]["Address"]["postal_code"]
+            document.add_heading('Почтовый индекс:', 1)
+            document.add_paragraph(post_code)
+        except:
+            pass
+
+        document.save('result.docx')
+
+    @staticmethod
+    def deleted_temp():
         """
-        Deleted temponary files.
+        Deleted temporary files.
         :return:
         """
         os.remove('temp/map.png')

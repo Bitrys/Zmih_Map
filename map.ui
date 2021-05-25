@@ -6,12 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>805</width>
-    <height>753</height>
+    <width>800</width>
+    <height>750</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>750</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>750</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ZmihMap</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #FFFFFF	</string>
@@ -508,13 +520,81 @@ QPushButton:pressed {
      <string>© 2020 — 2021 ООО «Яндекс», материал выполнен для проектной деятельности в Яндекс.Лицее и МАОУ Лицей № 128, и распространяется по лицензии DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE v.2 2004</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="exit_button">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>470</y>
+      <width>101</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Microsoft Sans Serif</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+  color: #000000;
+  background: #ffba00;
+  border-radius: 15;
+}
+
+QPushButton:hover {
+  background: #ed9121;
+}
+
+QPushButton:pressed {
+  background: #A48E00;
+}</string>
+    </property>
+    <property name="text">
+     <string>Выход</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="settings_button">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>410</y>
+      <width>101</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Microsoft Sans Serif</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+  color: #000000;
+  background: #ffba00;
+  border-radius: 15;
+}
+
+QPushButton:hover {
+  background: #ed9121;
+}
+
+QPushButton:pressed {
+  background: #A48E00;
+}</string>
+    </property>
+    <property name="text">
+     <string>Настройки</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="functional_menu">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>805</width>
+     <width>800</width>
      <height>19</height>
     </rect>
    </property>
